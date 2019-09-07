@@ -1,0 +1,24 @@
+{
+  "name": "dishook",
+  "version": "1.0.0",
+  "description": "A discord bot that allows you to configure outbound webhooks.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dm430/DisHook.git"
+  },
+  "author": "Dm430",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/dm430/DisHook/issues"
+  },
+  "homepage": "https://github.com/dm430/DisHook#readme",
+  "dependencies": {
+    "discord-akairo": "^7.5.6",
+    "discord.js": "^11.5.1",
+    "sequelize": "^5.18.1"
+  }
+}
