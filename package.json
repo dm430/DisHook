@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/dm430/DisHook#readme",
   "dependencies": {
+    "container-ioc": "^1.7.19",
     "discord-akairo": "^7.5.6",
     "discord.js": "^11.5.1",
+    "dotenv": "^8.1.0",
     "sequelize": "^5.18.1"
   },
   "engines": {
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/node": "^7.6.1",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
     "@babel/preset-env": "^7.6.0"
   }
 }
