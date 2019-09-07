@@ -1,31 +1,16 @@
 import 'dotenv/config';
 
-import { AkairoClient, CommandHandler } from 'discord-akairo';
-import { Container, Injectable } from 'container-ioc';
-
-import IocCommandHandler from './handlers/IocCommandHandler';
-
-import PingComamnd  from './commands/pingCommand';
-import AddWebHookCommand from './commands/addWebHookCommand';
+import { Container } from 'container-ioc';
+import DisHookClient from './application/DisHookClient';
+import registerCommands from './application/commandRegistration';
 
 const container = new Container();
+const client = new DisHookClient(container);
 
-container.register({ token: PingComamnd, useClass: PingComamnd });
-container.register({ token: AddWebHookCommand, useClass: AddWebHookCommand });
+registerCommands(container);
+
 container.register({ token: 'test', useValue: 'PingComamnd injected value' });
 container.register({ token: 'AkairoClient', useFactory: () => { return client; } });
 container.register({ token: 'IocCommandHandler', useFactory: () => { return client.commandHandler; } });
 
-class MyClient extends AkairoClient {
-  constructor(container) {
-    super();
-
-    this.commandHandler = new IocCommandHandler(this, {
-        commandDirectory: './src/commands',
-        prefix: '!'
-    }, container);
-  }
-}
-
-const client = new MyClient(container);
-client.login(process.env.ACCESS_TOKEN);0
+client.login(process.env.ACCESS_TOKEN);
