@@ -1,7 +1,7 @@
-import { CommandHandler } from 'discord-akairo';
+import { ListenerHandler } from 'discord-akairo';
 import IocModuleLoader from '../application/IocModuleLoader';
 
-class IocCommandHandler extends CommandHandler {
+class IocListenerHandler extends ListenerHandler {
     constructor(client, options = {}, iocContainer) {
         super(client, options);
         this.iocContainer = iocContainer;
@@ -13,4 +13,4 @@ class IocCommandHandler extends CommandHandler {
     }
 }
 
-export default IocCommandHandler;
+export default IocListenerHandler;

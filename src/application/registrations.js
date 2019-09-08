@@ -12,6 +12,10 @@ export function registerCommands(container) {
     container.register({ token: ListWebHooksCommand, useClass: ListWebHooksCommand });
 }
 
+export function registerListeners(container) {
+    
+}
+
 export function registerServices(container) {
     container.register({ token: 'HookManagementService', useClass: HookManagementService, lifeTime: LifeTime.Persistent });
 }

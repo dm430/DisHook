@@ -1,16 +1,12 @@
 import { Command } from 'discord-akairo';
 import { Injectable } from 'container-ioc';
 
-@Injectable(['AkairoClient', 'IocCommandHandler', 'test'])
+@Injectable(['AkairoClient', 'IocCommandHandler'])
 class PingCommand extends Command {
-    constructor(client, handler, test) {
+    constructor(client, handler) {
         super('ping', {
            aliases: ['ping'] 
         });
-
-        this.client = client;
-        this.handler = handler;
-        this.test = test;
     }
 
     exec(message) {

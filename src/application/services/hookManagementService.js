@@ -9,18 +9,13 @@ class HookManagementService {
     }
 
     getHooks(guildId) {
-        console.log(this.guildHooks);
-        console.log(guildId);
-
         let hooks = new Array();
 
         if (this.guildHooks.has(guildId)) {
-            console.log('we made it dad');
-
             let guild = this.guildHooks.get(guildId);
             hooks = Array.from(guild.webHooks.values());
         }
-
+        
         return hooks;
     }
 
@@ -39,8 +34,6 @@ class HookManagementService {
 
         let hook = new WebHook(hookName, callbackEndpoint);
         guild.webHooks.set(hookName, hook);
-
-        console.log(this.guildHooks);
     }
 }
 
