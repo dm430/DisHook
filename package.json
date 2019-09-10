@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/dm430/DisHook#readme",
   "dependencies": {
+    "axios": "^0.19.0",
     "container-ioc": "^1.7.19",
     "discord-akairo": "^7.5.6",
     "discord.js": "^11.5.1",

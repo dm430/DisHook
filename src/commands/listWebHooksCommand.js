@@ -6,7 +6,8 @@ class ListWebHooksCommand extends Command {
     constructor(hookManagementService) {
         super('list-hooks', {
            aliases: ['list-hooks'],
-           category: 'hook management'
+           category: 'hook management',
+           userPermissions: ['MANAGE_WEBHOOKS']
         });
 
         this.hookManagementService = hookManagementService;

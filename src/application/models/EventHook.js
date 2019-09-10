@@ -1,7 +1,7 @@
 class EventHook {
     constructor(eventId) {
         this.eventId = eventId;
-        this.this.webHooks = new Array();
+        this.webHooks = new Array();
     }
 }
 

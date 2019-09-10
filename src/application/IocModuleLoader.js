@@ -18,8 +18,6 @@ class IocModuleLoader {
     };
 
     load(thing, isReload = false) {
-
-
         const isObject = typeof thing === 'object';
 
         if (!isObject && !/\.(js|json|ts)$/.test(thing)) {

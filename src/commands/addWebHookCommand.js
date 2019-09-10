@@ -17,7 +17,8 @@ class AddWebHookCommand extends Command {
                    id: 'endpoint',
                    type: 'string'
                }
-           ]
+           ],
+           userPermissions: ['MANAGE_WEBHOOKS']
         });
 
         this.hookManagementService = hookManagementService;
@@ -28,10 +29,10 @@ class AddWebHookCommand extends Command {
             let guildId = message.guild.id;
             this.hookManagementService.createHook(guildId, args.hookName, args.endpoint);
         } catch(error) {
-            return message.reply(`Failed to create web hook: ${error}.`);
+            return message.reply(`Failed to create webhook: ${error}.`);
         }
         
-        return message.reply(`Web hook created successfully.`);
+        return message.reply(`Webhook created successfully.`);
     }
 }
 
