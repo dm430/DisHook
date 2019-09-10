@@ -7,7 +7,7 @@ class AddWebHookCommand extends Command {
         super('add-hook', {
            aliases: ['add-hook'],
            category: 'hook management',
-           split: 'quoted',
+           split: 'sticky',
            args: [
                {
                    id: 'hookName',
@@ -16,6 +16,12 @@ class AddWebHookCommand extends Command {
                {
                    id: 'endpoint',
                    type: 'string'
+               },
+               {
+                   id: 'event',
+                   match: 'prefix',
+                   prefix: '-event=',
+                   default: undefined
                }
            ],
            userPermissions: ['MANAGE_WEBHOOKS']
@@ -25,14 +31,23 @@ class AddWebHookCommand extends Command {
     }
 
     exec(message, args) {
+        let resultMessage = `Webhook created`;
+
         try {
             let guildId = message.guild.id;
             this.hookManagementService.createHook(guildId, args.hookName, args.endpoint);
+
+            if (args.event) {
+                this.hookManagementService.linkHook(guildId, args.hookName, args.event);
+                resultMessage += ' and linked'
+            }
+
+            resultMessage += ' successfully.';
         } catch(error) {
-            return message.reply(`Failed to create webhook: ${error}.`);
+            resultMessage = `Failed to create webhook: ${error}.`;
         }
         
-        return message.reply(`Webhook created successfully.`);
+        return message.reply(resultMessage);
     }
 }
 

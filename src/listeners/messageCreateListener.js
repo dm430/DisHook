@@ -14,11 +14,10 @@ class MessageCreateListener extends Listener {
     }
 
     async exec(message) {
+        // TODO: ignore messages the come from this bot.
         let guildId = message.guild.id;
         let hooks = this.hookManagementService.getHooksForEvent(guildId, 'message');
         let results = new Array();
-
-        console.log(message);
 
         hooks.forEach(hook => {
             let payload = {
@@ -68,7 +67,7 @@ class MessageCreateListener extends Listener {
                     }
                 }
             };
-            console.log(payload);
+
             let result = axios.post(hook.callbackEndpoint, payload);
             results.push(result);
         });
