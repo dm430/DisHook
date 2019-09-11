@@ -2,9 +2,9 @@ import { Listener } from 'discord-akairo';
 import { Injectable } from 'container-ioc';
 import PayloadBuilder from '../application/PayloadBuilder';
 
-@Injectable(['AkairoClient', 'HookManagementService', 'WebClient'])
+@Injectable(['AkairoClient', 'HookManagementService', 'WebClient', 'Logger'])
 class MessageCreateListener extends Listener {
-    constructor(client, hookManagementService, webClient) {
+    constructor(client, hookManagementService, webClient, logger) {
         super('message', {
             emitter: 'client',
             eventName: 'message'
@@ -13,6 +13,7 @@ class MessageCreateListener extends Listener {
         this.client = client;
         this.hookManagementService = hookManagementService;
         this.webClient = webClient;
+        this.logger = logger;
     }
 
     async exec(message) {
@@ -30,8 +31,7 @@ class MessageCreateListener extends Listener {
     
                 await Promise.all(results);
             } catch(error) {
-                // TODO: log error.
-                console.log(error);
+                this.logger.error(error);
             }
         }
     }
