@@ -7,9 +7,9 @@ import { registerCommands, registerServices, registerListeners } from './applica
 const container = new Container();
 const client = new DisHookClient(container);
 
-registerCommands(container);
-registerListeners(container);
-registerServices(container);
+registerCommands(container, process.env);
+registerListeners(container, process.env);
+registerServices(container, process.env);
 
 container.register({ token: 'AkairoClient', useFactory: () => { return client; } });
 container.register({ token: 'IocCommandHandler', useFactory: () => { return client.commandHandler; } });

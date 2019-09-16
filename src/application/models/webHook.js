@@ -1,7 +1,8 @@
 class WebHook {
-    constructor(name, callbackEndpoint) {
+    constructor(name, callbackEndpoint, id) {
         this.name = name;
         this.callbackEndpoint = callbackEndpoint;
+        this.id = id;
     }
 }
 

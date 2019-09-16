@@ -1,76 +1,57 @@
 import WebHook from "../models/webHook";
-import Guild from "../models/Guild";
-import EventHook from '../models/EventHook';
+import Events from '../models/EventEnum';
 import { Injectable } from 'container-ioc';
 
-@Injectable()
+@Injectable(['WebhookRepository'])
 class HookManagementService {
-    constructor() {
+    constructor(webhookRepository) {
         this.guildHooks = new Map();
+        this.webhookRepository = webhookRepository;
     }
 
-    getHooks(guildId) {
+    async getHooks(guildId) {
         let hooks = new Array();
+        const result = await this.webhookRepository.getWebhooks(guildId);
 
-        if (this.guildHooks.has(guildId)) {
-            let guild = this.guildHooks.get(guildId);
-            hooks = Array.from(guild.webHooks.values());
+        if (result) {
+            hooks = result;
         }
         
         return hooks;
     }
 
-    getHooksForEvent(guildId, event) {
+    async getHooksForEvent(guildId, event) {
         let hooks = new Array();
+        const eventId = Events[event];
+        const result = await this.webhookRepository.getWebhooksForGuildEvent(guildId, eventId);
 
-        if (this.guildHooks.has(guildId)) {
-            let guild = this.guildHooks.get(guildId);
-
-            if (guild.eventsHooks.has(event)) {
-                let eventHook = guild.eventsHooks.get(event);
-                hooks = eventHook.webHooks;
-            }
+        if (result) {
+            hooks = result;
         }
 
         return hooks;
     }
 
-    linkHook(guildId, hookName, event) {
-        if (this.guildHooks.has(guildId)) {
-            let guild = this.guildHooks.get(guildId);
+    async linkHook(guildId, hookName, event) {
+        const webhook = await this.webhookRepository.findWebhookForGuild(guildId, hookName);
 
-            if (guild.webHooks.has(hookName)) {
-                let hook = guild.webHooks.get(hookName);
-                let eventHook = new EventHook(event);
-
-                if (guild.eventsHooks.has(event)) {
-                    eventHook = guild.eventsHooks.get(event);
-                    eventHook.webHooks.push(hook);
-                } else {
-                    eventHook.webHooks.push(hook);
-                    guild.eventsHooks.set(event, eventHook);
-                }
-            } else {
-                throw new Error(`Could not locate a hook with the name ${hookName}.`)
-            }
+        if (webhook == null) {
+            throw new Error(`Could not locate a hook with the name ${hookName}.`)
+        } else {
+            const eventId = Events[event];
+            await this.webhookRepository.CreateEventWebhookLink(guildId, eventId, webhook);
         }
     }
 
-    createHook(guildId, hookName, callbackEndpoint) {
-        let guild = new Guild(guildId);
+    async createHook(guildId, hookName, callbackEndpoint) {
+        let webhook = await this.webhookRepository.findWebhookForGuild(guildId, hookName);
 
-        if (this.guildHooks.has(guildId)) {
-            guild = this.guildHooks.get(guildId);
-
-            if (guild.webHooks.has(hookName)) {
-                throw new Error("The specified webhook already exists.");
-            }
+        if (webhook != null) {
+            throw new Error("The specified webhook already exists.");
         } else {
-            this.guildHooks.set(guildId, guild);
+            webhook = new WebHook(hookName, callbackEndpoint);
+            await this.webhookRepository.createWebhook(guildId, webhook);
         }
-
-        let hook = new WebHook(hookName, callbackEndpoint);
-        guild.webHooks.set(hookName, hook);
     }
 }
 

@@ -30,15 +30,15 @@ class AddWebHookCommand extends Command {
         this.hookManagementService = hookManagementService;
     }
 
-    exec(message, args) {
+    async exec(message, args) {
         let resultMessage = `Webhook created`;
 
         try {
             let guildId = message.guild.id;
-            this.hookManagementService.createHook(guildId, args.hookName, args.endpoint);
+            await this.hookManagementService.createHook(guildId, args.hookName, args.endpoint);
 
             if (args.event) {
-                this.hookManagementService.linkHook(guildId, args.hookName, args.event);
+                await this.hookManagementService.linkHook(guildId, args.hookName, args.event);
                 resultMessage += ' and linked'
             }
 

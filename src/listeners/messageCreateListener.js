@@ -21,7 +21,7 @@ class MessageCreateListener extends Listener {
             try {
                 let results = new Array();
                 let guildId = message.guild.id;
-                let webhooks = this.hookManagementService.getHooksForEvent(guildId, this.eventName);
+                let webhooks = await this.hookManagementService.getHooksForEvent(guildId, this.eventName);
 
                 webhooks.forEach(webhook => {
                     let payload = PayloadBuilder.createMessagePayload(guildId, message);
@@ -31,7 +31,7 @@ class MessageCreateListener extends Listener {
     
                 await Promise.all(results);
             } catch(error) {
-                this.logger.error(error);
+                this.logger.error(error.toString());
             }
         }
     }

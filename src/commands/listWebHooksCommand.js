@@ -24,11 +24,9 @@ class ListWebHooksCommand extends Command {
         return formattedList;
     }
 
-    exec(message) {
+    async exec(message) {
         let guildId = message.guild.id;
-        let webHooks = this.hookManagementService.getHooks(guildId);
-        
-        console.log(webHooks);
+        let webHooks = await this.hookManagementService.getHooks(guildId);
 
         if (webHooks.length == 0) {
             return message.reply(`No webhooks exist in his guild. Run the add-hook command to create one.`);

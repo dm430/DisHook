@@ -30,10 +30,10 @@ class LinkWebHookToEventCommand extends Command {
         this.hookManagementService = hookManagementService;
     }
 
-    exec(message, args) {
+    async exec(message, args) {
         try {
             let guildId = message.guild.id;
-            this.hookManagementService.linkHook(guildId, args.hookName, args.event);
+            await this.hookManagementService.linkHook(guildId, args.hookName, args.event);
         } catch(error) {
             return message.reply(`Failed to link webhook: ${error}.`);
         }
