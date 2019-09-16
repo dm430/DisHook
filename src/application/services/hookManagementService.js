@@ -56,6 +56,3 @@ class HookManagementService {
 }
 
 export default HookManagementService;
-
-
-            

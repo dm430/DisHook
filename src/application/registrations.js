@@ -8,12 +8,15 @@ import ListWebHooksCommand from '../commands/listWebHooksCommand';
 import LinkWebHookToEventCommand from '../commands/linkWebHookToEventCommand';
 
 import MessageCreateListener from '../listeners/messageCreateListener';
+import GuildJoinListener from '../listeners/guildJoinListener';
 
 import axios from 'axios';
 import winston from 'winston';
 import knex from 'knex';
 import WebhookRepository from './repositories/webhookRepository';
 import HookManagementService from './services/hookManagementService';
+import GuildRepository from './repositories/guildRepository';
+import GuildManagementService from './services/guildManagementService';
 
 export function registerCommands(container, environment) {
     container.register({ token: PingComamnd, useClass: PingComamnd });
@@ -24,6 +27,7 @@ export function registerCommands(container, environment) {
 
 export function registerListeners(container, environment) {
     container.register({ token: MessageCreateListener, useClass: MessageCreateListener });
+    container.register({ token: GuildJoinListener, useClass: GuildJoinListener })
 }
 
 export function registerServices(container, environment) {
@@ -52,4 +56,6 @@ export function registerServices(container, environment) {
     container.register({ token: 'WebClient', useFactory: () => { return axios; } });
     container.register({ token: 'WebhookRepository', useClass: WebhookRepository });
     container.register({ token: 'HookManagementService', useClass: HookManagementService, lifeTime: LifeTime.Persistent });
+    container.register({ token: 'GuildRepository', useClass: GuildRepository });
+    container.register({ token: 'GuildManagementService', useClass: GuildManagementService, lifeTime: LifeTime.Persistent });
 }
