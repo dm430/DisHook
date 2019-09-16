@@ -62,3 +62,6 @@ typings/
 
 # test outputs
 test-results.xml
+
+# Build output
+dist/

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npx babel-node src/main.js",
-    "build": "npx babel src",
+    "build": "npx babel src --out-dir dist",
     "test": "jest"
   },
   "repository": {
