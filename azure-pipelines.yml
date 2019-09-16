@@ -30,6 +30,14 @@ steps:
     testRunner: JUnit
     testResultsFiles: '**/TEST-RESULTS.xml'
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents:  |
+      **\dist\**
+      **\node_modules\**
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
