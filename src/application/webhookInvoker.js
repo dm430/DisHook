@@ -7,14 +7,14 @@ class WebhookInvoker {
     }
 
     async sendPayload(webhooks, payload) {
-        let results = new Array();
+        let requests = new Array();
         
         webhooks.forEach(webhook => {
             let result = this.webClient.post(webhook.callbackEndpoint, payload);
-            results.push(result);
+            requests.push(result);
         });
 
-        await Promise.all(results);
+       return Promise.allSettled(requests);
     }
 }
 

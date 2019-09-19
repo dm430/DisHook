@@ -18,9 +18,9 @@ class WebhookEventListener extends Listener {
 
     async exec(...eventArguments) {
         try {
-            let guildId = eventArguments[0].guild.id;
-            let payload = this.createPayload(guildId, eventArguments);
-            let webhooks = await this.hookManagementService.getHooksForEvent(guildId, this.eventName);
+            const guildId = eventArguments[0].guild.id;
+            const payload = this.createPayload(guildId, eventArguments);
+            const webhooks = await this.hookManagementService.getHooksForEvent(guildId, this.eventName);
     
             await this.webhookInvoker.sendPayload(webhooks, payload);
         } catch(error) {
