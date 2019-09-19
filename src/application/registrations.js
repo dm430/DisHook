@@ -8,11 +8,16 @@ import ListWebHooksCommand from '../commands/listWebHooksCommand';
 import LinkWebHookToEventCommand from '../commands/linkWebHookToEventCommand';
 
 import MessageCreateListener from '../listeners/messageCreateListener';
+import MessageDeleteListener from '../listeners/messageDeleteListiner';
+import MessageUpdateListener from '../listeners/messageUpdateListener';
 import GuildJoinListener from '../listeners/guildJoinListener';
+import GuildMemberAddLisener from '../listeners/guildMemberAddLisener';
+import GuildMemberRemoveLisener from '../listeners/guildMemberRemoveListener';
 
 import axios from 'axios';
 import winston from 'winston';
 import knex from 'knex';
+import WebhookInvoker from './webhookInvoker';
 import WebhookRepository from './repositories/webhookRepository';
 import HookManagementService from './services/hookManagementService';
 import GuildRepository from './repositories/guildRepository';
@@ -27,7 +32,11 @@ export function registerCommands(container, environment) {
 
 export function registerListeners(container, environment) {
     container.register({ token: MessageCreateListener, useClass: MessageCreateListener });
-    container.register({ token: GuildJoinListener, useClass: GuildJoinListener })
+    container.register({ token: MessageDeleteListener, useClass: MessageDeleteListener });
+    container.register({ token: MessageUpdateListener, useClass: MessageUpdateListener });
+    container.register({ token: GuildJoinListener, useClass: GuildJoinListener });
+    container.register({ token: GuildMemberAddLisener, useClass: GuildMemberAddLisener });
+    container.register({ token: GuildMemberRemoveLisener, useClass: GuildMemberRemoveLisener });
 }
 
 export function registerServices(container, environment) {
@@ -54,6 +63,7 @@ export function registerServices(container, environment) {
     container.register({ token: 'QueryBuilder', useFactory: () => { return queryBuilder; } });
     container.register({ token: 'Logger', useFactory: () => { return logger; } });
     container.register({ token: 'WebClient', useFactory: () => { return axios; } });
+    container.register({ token: 'WebhookInvoker', useClass: WebhookInvoker });
     container.register({ token: 'WebhookRepository', useClass: WebhookRepository });
     container.register({ token: 'HookManagementService', useClass: HookManagementService, lifeTime: LifeTime.Persistent });
     container.register({ token: 'GuildRepository', useClass: GuildRepository });

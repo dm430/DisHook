@@ -1,38 +1,22 @@
-import { Listener } from 'discord-akairo';
 import { Injectable } from 'container-ioc';
+import WebhookEventListener from '../application/webhookEventListener';
 import PayloadBuilder from '../application/PayloadBuilder';
 
-@Injectable(['AkairoClient', 'HookManagementService', 'WebClient', 'Logger'])
-class MessageCreateListener extends Listener {
-    constructor(client, hookManagementService, webClient, logger) {
-        super('message', {
-            emitter: 'client',
-            eventName: 'message'
-        });
+@Injectable(['AkairoClient', 'HookManagementService', 'WebhookInvoker', 'Logger'])
+class MessageCreateListener extends WebhookEventListener {
+    constructor(client, hookManagementService, webhookInvoker, logger) {
+        super('message', hookManagementService, webhookInvoker, logger);
 
         this.client = client;
-        this.hookManagementService = hookManagementService;
-        this.webClient = webClient;
-        this.logger = logger;
+    }
+
+    createPayload(guildId, [message]) {
+        return PayloadBuilder.createMessagePayload(guildId, message);
     }
 
     async exec(message) {
         if (message.author.id != this.client.user.id) {
-            try {
-                let results = new Array();
-                let guildId = message.guild.id;
-                let webhooks = await this.hookManagementService.getHooksForEvent(guildId, this.eventName);
-
-                webhooks.forEach(webhook => {
-                    let payload = PayloadBuilder.createMessagePayload(guildId, message);
-                    let result = this.webClient.post(webhook.callbackEndpoint, payload);
-                    results.push(result);
-                });
-    
-                await Promise.all(results);
-            } catch(error) {
-                this.logger.error(error.toString());
-            }
+            await super.exec(message);
         }
     }
 }
