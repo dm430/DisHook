@@ -17,7 +17,7 @@ steps:
 
 - script: |
     npm install
-    npm build
+    npm run build
   displayName: 'npm install and build'
 
 - script: |
@@ -35,7 +35,7 @@ steps:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents:  |
       **/dist/**
-      **/node_modules/**
+      **/package.json
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
