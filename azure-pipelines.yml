@@ -34,7 +34,7 @@ steps:
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents:  |
-      **/dist/**
+      dist/**
       package.json
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
